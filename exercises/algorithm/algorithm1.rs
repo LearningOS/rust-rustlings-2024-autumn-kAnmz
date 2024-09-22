@@ -71,12 +71,22 @@ impl<T> LinkedList<T> {
     }
 	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
 	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+		let mut merged_list = LinkedList::<T>::new();
+        let mut current_a = list_a.start;
+        let mut current_b = list_b.start;
+        let mut current_merged :Option<T> = None;
+        
+        loop {
+            if let (Some(node_a), Some(node_b)) = (current_a, current_b) {
+                // 在这里执行你的逻辑
+                // 更新 current_a 和 current_b 的逻辑
+            } else {
+                // 如果任何一个是 None，就跳出循环
+                break;
+            }
         }
+
+        merged_list
 	}
 }
 

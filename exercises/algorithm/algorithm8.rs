@@ -2,7 +2,6 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-// I AM NOT DONE
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -67,15 +66,49 @@ impl<T> myStack<T> {
         }
     }
     pub fn push(&mut self, elem: T) {
-        //TODO
+        self.q1.enqueue(elem);
     }
+    
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        // // 如果 q1 不为空，则将 q1 中的所有元素移动到 q2
+        // if !self.q1.is_empty() {
+        //     while let Ok(v1) = self.q1.dequeue() {
+        //         self.q2.enqueue(v1);
+        //     }
+        //     // 从 q2 中弹出元素
+        //     self.q2.dequeue().map_err(|_| "Stack is empty")
+        // } else if !self.q2.is_empty() {
+        //     // 如果 q1 为空，则将 q2 中的所有元素移动回 q1
+        //     while let Ok(v2) = self.q2.dequeue() {
+        //         self.q1.enqueue(v2);
+        //     }
+        //     // 从 q1 中弹出元素
+        //     self.q1.dequeue().map_err(|_| "Stack is empty")
+        // } else {
+        //     // 如果两个队列都为空，则栈为空
+        //     Err("Stack is empty")
+        // }
+        let (from, to) = if !self.q1.is_empty() {
+            (&mut self.q1, &mut self.q2)
+        } else if !self.q2.is_empty() {
+            (&mut self.q2, &mut self.q1)
+        } else {
+            return Err("Stack is empty");
+        };
+
+        // 将除最后一个元素外的所有元素移动到另一个队列
+        while from.size() > 1 {
+            if let Ok(item) = from.dequeue() {
+                to.enqueue(item);
+            }
+        }
+
+        // 返回最后一个元素
+        from.dequeue().map_err(|_| "Unexpected error: Queue is empty")
     }
+
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+		self.q1.is_empty() && self.q2.is_empty()
     }
 }
 
